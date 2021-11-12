@@ -17,7 +17,7 @@ services:
       - TOPIC_LABEL=reading
       - LOG_LEVEL=DEBUG      
     depends_on:
-      - mqttzigbee
+      - mqtt
 
   zigbee:
     image: koenkk/zigbee2mqtt:latest
@@ -26,21 +26,19 @@ services:
     ports:
       # Frontend port
       - 8080:8080
-    mqtt:
-      server: 'mqtt://192.168.2.80:1883'
     volumes:
       - ./data/zigbee:/app/data      
     depends_on:
-      - mqttzigbee
+      - mqtt
     links:
-      - mqttzigbee      
+      - mqtt      
     devices:
       - "/dev/ttyACM0:/dev/ttyACM0"        
     restart: always
 
-  mqttzigbee:
+  mqtt:
     image: "eclipse-mosquitto:latest"
-    container_name: mqttzigbee
+    container_name: mqtt
     environment:
       - TZ=Europe/Amsterdam
       - "MQTT_BROKER_URL=mqtt://192.168.2.80"
