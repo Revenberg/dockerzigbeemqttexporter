@@ -20,7 +20,7 @@ services:
       - mqttzigbeeexporter
 
   zigbee:
-    image: koenkk/zigbee2mqtt:latest
+    image: koenkk/zigbeemqttexporter:latest
     environment:
       - TZ=Europe/Amsterdam
     ports:
