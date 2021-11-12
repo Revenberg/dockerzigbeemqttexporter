@@ -2,7 +2,7 @@
 
 # version 2021-08-07 15:20
 
-cd ~/dockermqttexporter
+cd ~/dockerzigbee2mqtt
 
 if [ -n "$1" ]; then
   ex=$1
@@ -19,18 +19,18 @@ if [ $ex == true ]; then
     git pull
     chmod +x build.sh
 
-    docker image build -t revenberg/mqttexporter:latest .
+    docker image build -t revenberg/zigbee2mqtt:latest .
 
-    docker push revenberg/mqttexporter
+    docker push revenberg/zigbee2mqtt
 
     # testing: 
 
     echo "==========================================================="
     echo "=                                                         ="
-    echo "=          docker run revenberg/mqttexporter            ="
+    echo "=          docker run revenberg/zigbee2mqtt            ="
     echo "=                                                         ="
     echo "==========================================================="
-    # docker run revenberg/mqttexporter
+    # docker run revenberg/zigbee2mqtt
 fi
 
 cd -
