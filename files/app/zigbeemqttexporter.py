@@ -130,10 +130,6 @@ def _normalize_shelly_msg(topic, payload):
 def _parse_message(topic, payload):
     """Parse topic and payload to have exposable information."""
     # Shelly sensors support
-    LOG.debug('=============================================================')
-    LOG.debug('=============================================================')
-    LOG.debug('=============================================================')
-    LOG.debug('Topic "%s"', topic)
     if "shellies" in topic:
         topic, payload = _normalize_shelly_msg(topic, payload)
 
@@ -163,8 +159,7 @@ def _parse_message(topic, payload):
 def expose_metrics(client, userdata, msg):  # pylint: disable=W0613
     """Expose metrics to prometheus when a message has been published (callback)."""
     
-    LOG.debug('Topic "%s"', msg.topic)
-    if msg.topic in IGNORED_TOPICS:
+    if msg.topic in IGNORED_TOPICS or IGNORED_TOPICS in msg.topic:
         LOG.debug('Topic "%s" was ignored', msg.topic)
         return
 
