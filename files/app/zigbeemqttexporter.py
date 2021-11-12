@@ -49,8 +49,6 @@ def subscribe(client, userdata, flags, connection_result):  # pylint: disable=W0
 
 
 def _parse_metrics(data, topic, prefix=""):
-    LOG.info( "====================================================================" )
-    LOG.info( data )
     """Attempt to parse a set of metrics.
 
     Note when `data` contains nested metrics this function will be called recursivley.
@@ -164,8 +162,6 @@ def _parse_message(topic, payload):
 
 def expose_metrics(client, userdata, msg):  # pylint: disable=W0613
     """Expose metrics to prometheus when a message has been published (callback)."""
-    LOG.info( "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" )
-    
     for iTopic in IGNORED_TOPICS:
         if iTopic in msg.topic:
             LOG.debug('Topic "%s" was ignored', msg.topic)
