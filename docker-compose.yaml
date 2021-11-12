@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  zigbeemqttexporter:
+    image: revenberg/zigbeemqttexporter
+    container_name: zigbeemqttexporter
+    restart: always
+    ports:
+      - 9004:9004
+    expose:
+      - 9004
+    environment:
+      - MQTT_ADDRESS=192.168.2.80
+      - MQTT_TOPIC=zigbeemqtt/#
+      - MQTT_IGNORED_TOPICS=bridge
+      - PROMETHEUS_PREFIX=reading_
+      - TOPIC_LABEL=reading
+      - LOG_LEVEL=DEBUG      
+    depends_on:
+      - mqttzigbeeexporter
+
+  zigbee:
+    image: koenkk/zigbee2mqtt:latest
+    environment:
+      - TZ=Europe/Amsterdam
+    ports:
+      # Frontend port
+      - 8080:8080
+    volumes:
+      - ./data/zigbee:/app/data      
+    depends_on:
+      - mqttzigbeeexporter
+    links:
+      - mqttzigbeeexporter      
+    devices:
+      - "/dev/ttyACM0:/dev/ttyACM0"        
+    restart: always
+
+  mqttzigbeeexporter:
+    image: "eclipse-mosquitto:latest"
+    container_name: mqtt
+    environment:
+      - TZ=Europe/Amsterdam
+      - "MQTT_BROKER_URL=mqtt://127.0.0.1"
+    ports:
+      - 1883:1883
+      - 9001:9001
+    user: "1000:1000"
+    volumes:
+      - /var/docker-compose/data/mqtt/config:/mosquitto/config
+      - /var/docker-compose/data/mqtt/data:/mosquitto/data
+      - /var/docker-compose/data/mqtt/log:/mosquitto/log
+    restart: always
+    network_mode: host

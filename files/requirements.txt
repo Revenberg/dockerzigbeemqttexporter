@@ -1,0 +1,4 @@
+serial
+pyowm
+paho-mqtt
+prometheus-client
