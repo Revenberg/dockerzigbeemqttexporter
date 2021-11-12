@@ -130,6 +130,10 @@ def _normalize_shelly_msg(topic, payload):
 def _parse_message(topic, payload):
     """Parse topic and payload to have exposable information."""
     # Shelly sensors support
+    LOG.debug('=============================================================')
+    LOG.debug('=============================================================')
+    LOG.debug('=============================================================')
+    LOG.debug('Topic "%s"', topic)
     if "shellies" in topic:
         topic, payload = _normalize_shelly_msg(topic, payload)
 

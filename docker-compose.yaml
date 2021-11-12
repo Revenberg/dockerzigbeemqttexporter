@@ -11,7 +11,7 @@ services:
       - 9004
     environment:
       - MQTT_ADDRESS=192.168.2.80
-      - MQTT_TOPIC=zigbeemqtt/#
+      - MQTT_TOPIC=zigbee2mqtt/#
       - MQTT_IGNORED_TOPICS=bridge
       - PROMETHEUS_PREFIX=reading_
       - TOPIC_LABEL=reading
