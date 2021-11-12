@@ -76,7 +76,7 @@ def _parse_metrics(data, topic, prefix=""):
             prom_metrics[prom_metric_name] = Gauge(
                 prom_metric_name, "metric generated from MQTT message.", [TOPIC_LABEL]
             )
-            prom_metric_name=topic + "_" + prom_metric_name
+#            prom_metric_name=topic + "_" + prom_metric_name
             LOG.info("creating prometheus metric: %s", prom_metric_name)
 
         # expose the metric to prometheus
@@ -138,7 +138,7 @@ def _parse_message(topic, payload):
     if "shellies" in topic:
         topic, payload = _normalize_shelly_msg(topic, payload)
 
-    topic = topic.replace("/", "_")
+    topic = topic.replace("/", "_").replace(" ", "_")
     # parse MQTT topic and payload
     try:
         payload = json.loads(payload)        
