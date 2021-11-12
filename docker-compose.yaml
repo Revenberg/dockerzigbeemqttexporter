@@ -17,7 +17,7 @@ services:
       - TOPIC_LABEL=reading
       - LOG_LEVEL=DEBUG      
     depends_on:
-      - mqttzigbeeexporter
+      - mqttzigbee
 
   zigbee:
     image: koenkk/zigbee2mqtt:latest
@@ -29,14 +29,14 @@ services:
     volumes:
       - ./data/zigbee:/app/data      
     depends_on:
-      - mqttzigbeeexporter
+      - mqttzigbee
     links:
-      - mqttzigbeeexporter      
+      - mqttzigbee      
     devices:
       - "/dev/ttyACM0:/dev/ttyACM0"        
     restart: always
 
-  mqttzigbeeexporter:
+  mqttzigbee:
     image: "eclipse-mosquitto:latest"
     container_name: mqtt
     environment:
