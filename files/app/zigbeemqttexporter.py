@@ -164,7 +164,7 @@ def expose_metrics(client, userdata, msg):  # pylint: disable=W0613
             LOG.debug('Topic "%s" was ignored', msg.topic)
             return
     
-    if msg.topic in IGNORED_TOPICS or IGNORED_TOPICS in msg.topic:
+    if msg.topic in IGNORED_TOPICS:
         LOG.debug('Topic "%s" was ignored', msg.topic)
         return
 
