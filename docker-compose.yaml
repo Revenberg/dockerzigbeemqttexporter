@@ -23,6 +23,7 @@ services:
     image: koenkk/zigbee2mqtt:latest
     environment:
       - TZ=Europe/Amsterdam
+      - MQTT_BROKER_URL=mqtt://192.168.2.80
     ports:
       # Frontend port
       - 8080:8080
