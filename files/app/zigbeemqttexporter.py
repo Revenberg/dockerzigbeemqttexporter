@@ -72,13 +72,14 @@ def _parse_metrics(data, topic, prefix=""):
         # create metric if does not exist
         prom_metric_name = f"{PREFIX}{prefix}{metric}".replace(".", "").replace(" ", "_")
         prom_metric_name = re.sub(r"\((.*?)\)", "", prom_metric_name)
+
+        prom_metric_name=topic + "_" + prom_metric_name
+
         if not prom_metrics.get(prom_metric_name):
             prom_metrics[prom_metric_name] = Gauge(
                 prom_metric_name, "metric generated from MQTT message.", [TOPIC_LABEL]
             )
-            prom_metric_name=topic + "_" + prom_metric_name
-            LOG.info("creating prometheus metric: %s", prom_metric_name)
-
+            
         # expose the metric to prometheus
         prom_metrics[prom_metric_name].labels(**{TOPIC_LABEL: topic}).set(metric_value)
         LOG.debug("new value for %s: %s", prom_metric_name, metric_value)
