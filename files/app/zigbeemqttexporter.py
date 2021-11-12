@@ -76,6 +76,7 @@ def _parse_metrics(data, topic, prefix=""):
             prom_metrics[prom_metric_name] = Gauge(
                 prom_metric_name, "metric generated from MQTT message.", [TOPIC_LABEL]
             )
+            prom_metric_name=topic + "_" + prom_metric_name
             LOG.info("creating prometheus metric: %s", prom_metric_name)
 
         # expose the metric to prometheus
@@ -162,6 +163,7 @@ def _parse_message(topic, payload):
 
 def expose_metrics(client, userdata, msg):  # pylint: disable=W0613
     """Expose metrics to prometheus when a message has been published (callback)."""
+    LOG.info( "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" )
     
     for iTopic in IGNORED_TOPICS:
         if iTopic in msg.topic:
@@ -177,7 +179,7 @@ def expose_metrics(client, userdata, msg):  # pylint: disable=W0613
     if not topic or not payload:
         return
 
-    LOG.debug( topic )
+    LOG.info( topic )
     _parse_metrics(payload, topic)
 
     # increment received message counter
