@@ -41,7 +41,7 @@ services:
     container_name: mqttzigbee
     environment:
       - TZ=Europe/Amsterdam
-      - "MQTT_BROKER_URL=mqtt://127.0.0.1"
+      - "MQTT_BROKER_URL=mqtt://192.168.2.80"
     ports:
       - 1883:1883
       - 9001:9001
