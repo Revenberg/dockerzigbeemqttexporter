@@ -29,7 +29,7 @@ services:
     volumes:
       - ./data/zigbee:/app/data      
     depends_on:
-      - mqttzigbeeexporter
+      - mqtt
     links:
       - mqttzigbeeexporter      
     devices:
