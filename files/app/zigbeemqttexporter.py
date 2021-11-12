@@ -49,12 +49,15 @@ def subscribe(client, userdata, flags, connection_result):  # pylint: disable=W0
 
 
 def _parse_metrics(data, topic, prefix=""):
+    LOG.info( "====================================================================" )
+    LOG.info( data )
     """Attempt to parse a set of metrics.
 
     Note when `data` contains nested metrics this function will be called recursivley.
     """
     for metric, value in data.items():
         # when value is a dict recursivley call _parse_metrics to handle these messages
+        LOG.info( value )
         if isinstance(value, dict):
             LOG.debug("parsing dict %s: %s", metric, value)
             _parse_metrics(value, topic, f"{prefix}{metric}_")
@@ -81,6 +84,7 @@ def _parse_metrics(data, topic, prefix=""):
 
 
 def _parse_metric(data):
+    LOG.debug( data )
     """Attempt to parse the value and extract a number out of it.
 
     Note that `data` is untrusted input at this point.
@@ -173,6 +177,7 @@ def expose_metrics(client, userdata, msg):  # pylint: disable=W0613
     if not topic or not payload:
         return
 
+    LOG.debug( topic )
     _parse_metrics(payload, topic)
 
     # increment received message counter
