@@ -159,7 +159,30 @@ def _parse_message(topic, payload):
 
     return topic, payload
 
+def _parse_metric(data):
+    """Attempt to parse the value and extract a number out of it.
+    Note that `data` is untrusted input at this point.
+    Raise ValueError is the data can't be parsed.
+    """
+    if isinstance(data, (int, float)):
+        return data
 
+    if isinstance(data, bytes):
+        data = data.decode()
+
+    if isinstance(data, str):
+        data = data.upper()
+
+        # Handling of switch data where their state is reported as ON/OFF
+        if data in STATE_VALUES:
+            return STATE_VALUES[data]
+
+        # Last ditch effort, we got a string, let's try to cast it
+        return float(data)
+
+    # We were not able to extract anything, let's bubble it up.
+    raise ValueError(f"Can't parse '{data}' to a number.")
+    
 def expose_metrics(client, userdata, msg):  # pylint: disable=W0613
     """Expose metrics to prometheus when a message has been published (callback)."""
     if (IGNORED_TOPICS[0] != ""):
